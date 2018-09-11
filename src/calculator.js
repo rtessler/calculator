@@ -50,7 +50,7 @@ export default class Calculator extends React.Component {
 
         // do operation immediately
 
-        let { val, mem, reset, lastOp, lastVal } = this.state;
+        let { val, mem, lastOp, lastVal } = this.state;
 
         let x = parseFloat(val)
 
@@ -59,7 +59,13 @@ export default class Calculator extends React.Component {
             case 'plusMinus':  val = (val[0] == '-') ? val.substring(1) : '-' + val; break;
             case 'clear':       val = '0'; break;
             case 'allClear':    mem = 0; val = '0'; lastOp = ''; lastVal = '0'; break;      // clear memory as well         
-            case 'percent':     val = x / 100; break;   
+            case 'percent':     
+                                // make val a fraction then multiply by previous value
+                                val = x / 100; 
+                                val *= lastVal;
+                                this.setState({ val: val.toString(), reset: true, lastVal: 0 });
+                                return;
+                                break;   
             case 'equals':     
                     this.op()
                     return
@@ -80,6 +86,8 @@ export default class Calculator extends React.Component {
         switch (name) {
             
             case 'recall': 
+                // value of memory is not changed
+
                 val = mem.toString(); 
                 this.setState({val: val.toString()}); 
                 return; 
@@ -107,13 +115,17 @@ export default class Calculator extends React.Component {
         }
         else {
 
-            if (val == 0 && val.indexOf('.') == -1)
+            if (val == 0 && val.indexOf('.') == -1) {
+
+                // if current value is zero replace the number
+                
                 val = n.toString();
+            }
             else
                 val += n.toString();
         }
 
-        this.setState({ val, reset: false});
+        this.setState({ val: val.toString(), reset: false});
     }
 
     point() {
