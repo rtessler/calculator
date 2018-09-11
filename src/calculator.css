@@ -1,0 +1,30 @@
+
+.container { margin-left: auto; margin-right: auto; width: 300px; }
+
+.calculator-container { position: relative; }
+
+img { float: left; }
+
+@font-face {
+    font-family: 'Casio';
+    src: URL('./fonts/digital-7.ttf');
+}    
+
+.display { position: absolute; 
+    z-index: 1; 
+    top: 88px; 
+    left: 55px; 
+    background: #f00; 
+    width: 215px; 
+    height: 76px; 
+    background-color: #D5E2E4; 
+    font-family: Casio; 
+    font-size: 52px; 
+    padding-top: 10px;
+    box-sizing: border-box;    
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+}
+
+h1 { font-family: Casio; }
